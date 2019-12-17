@@ -15,7 +15,13 @@ let batch: Log[] = [];
 
 export function safeParse(src: string) {
   try {
-    return JSON.parse(src);
+    const parsed = JSON.parse(src);
+
+    if (args.log) {
+      console.log(src);
+    }
+
+    return parsed;
   } catch (e) {
     if (args.log) {
       console.log(src);
@@ -24,10 +30,6 @@ export function safeParse(src: string) {
 }
 
 export function handleLog(log: Log, callback?: TransformCallback) {
-  if (args.log) {
-    console.log(log);
-  }
-
   batch.push(log);
 
   if (batch.length === args.batchSize) {
