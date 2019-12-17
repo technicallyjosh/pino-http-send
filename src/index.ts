@@ -11,6 +11,7 @@ export interface Log extends Record<string, any> {
   v: number;
 }
 
+let timeoutId: NodeJS.Timeout;
 let batch: Log[] = [];
 
 export function safeParse(src: string) {
@@ -29,17 +30,24 @@ export function safeParse(src: string) {
   }
 }
 
+function sendAndClear() {
+  send([...batch]);
+
+  batch = [];
+}
+
 export function handleLog(log: Log, callback?: TransformCallback) {
+  clearTimeout(timeoutId);
+
   batch.push(log);
 
   if (batch.length === args.batchSize) {
-    // send the batch, clear the batch, continue
-    send([...batch]);
-
-    batch = [];
+    sendAndClear();
 
     callback?.();
   } else {
+    timeoutId = setTimeout(sendAndClear, args.timeout);
+
     callback?.();
   }
 }
