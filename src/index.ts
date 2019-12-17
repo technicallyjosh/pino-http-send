@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import pump from 'pump';
 import split from 'split2';
-import through from 'through2';
+import through, { TransformCallback } from 'through2';
 
 import args from './args';
 import send from './send';
@@ -13,7 +13,7 @@ export interface Log extends Record<string, any> {
 
 let batch: Log[] = [];
 
-function safeParse(src: string) {
+export function safeParse(src: string) {
   try {
     return JSON.parse(src);
   } catch (e) {
@@ -23,7 +23,7 @@ function safeParse(src: string) {
   }
 }
 
-const transport = through.obj((log: Log, _enc, callback) => {
+export function handleLog(log: Log, callback?: TransformCallback) {
   if (args.log) {
     console.log(log);
   }
@@ -36,10 +36,14 @@ const transport = through.obj((log: Log, _enc, callback) => {
 
     batch = [];
 
-    callback();
+    callback?.();
   } else {
-    callback();
+    callback?.();
   }
+}
+
+const transport = through.obj((log: Log, _enc, callback) => {
+  handleLog(log, callback);
 });
 
 pump(process.stdin, split(safeParse), transport);
