@@ -1,0 +1,58 @@
+{
+  "name": "pino-http-send",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "dependencies": {
+    "async": "^3.1.0",
+    "chalk": "^3.0.0",
+    "got": "^10.0.4",
+    "lodash.debounce": "^4.0.8",
+    "pump": "^3.0.0",
+    "split2": "^3.1.1",
+    "through2": "^3.0.1",
+    "typescript": "^3.7.3",
+    "yargs": "^15.0.2"
+  },
+  "devDependencies": {
+    "@types/async": "^3.0.3",
+    "@types/lodash.debounce": "^4.0.6",
+    "@types/pump": "^1.1.0",
+    "@types/split2": "^2.1.6",
+    "@types/through2": "^2.0.34",
+    "@types/yargs": "^13.0.3",
+    "rimraf": "^3.0.0"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "dev": "npm run build && tsc --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "pino-http-send": "./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/technicallyjosh/pino-http-send.git"
+  },
+  "keywords": [
+    "pino",
+    "logging",
+    "logstash",
+    "transport"
+  ],
+  "author": {
+    "name": "Josh Newman",
+    "url": "https://technicallyjosh.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/technicallyjosh/pino-http-send/issues"
+  },
+  "homepage": "https://github.com/technicallyjosh/pino-http-send#readme",
+  "files": [
+    "dist/",
+    "README.md"
+  ]
+}
