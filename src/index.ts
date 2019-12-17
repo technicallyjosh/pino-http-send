@@ -17,26 +17,26 @@ function safeParse(src: string) {
   try {
     return JSON.parse(src);
   } catch (e) {
-    console.log(src);
+    if (args.log) {
+      console.log(src);
+    }
   }
 }
 
 function configureLog(log: Log) {
-  if (args.timestampKey) {
-    log[args.timestampKey] = log.time;
-    delete log.time;
-  }
-
-  return log;
+  log['@timestamp'] = log.time;
+  delete log.time;
 }
 
 const transport = through.obj((log: Log, _enc, callback) => {
-  if (args.console) {
+  if (args.log) {
     console.log(log);
   }
 
-  // configure for sending
-  configureLog(log);
+  if (args.logstash) {
+    // configure for sending
+    configureLog(log);
+  }
 
   batch.push(log);
 

@@ -2,7 +2,7 @@ import got from 'got';
 
 import { Log } from '.';
 import args from './args';
-import { logError, logInfo, logWarn } from './log';
+import { logError, logWarn } from './log';
 
 function createBody(logs: Log[]) {
   const { bodyType: type } = args;
@@ -28,22 +28,18 @@ export default function send(logs: Log[], retries = 0) {
     username: args.username,
     password: args.password,
     ...createBody(logs),
-  })
-    .then(() => {
-      logInfo(`sent ${logs.length} log(s)`);
-    })
-    .catch(err => {
-      logError(err, max ? null : `...retrying in ${args.interval}ms`);
+  }).catch(err => {
+    logError(err, max ? null : `...retrying in ${args.interval}ms`);
 
-      if (max) {
-        logWarn(
-          `max retries hit (${args.retries}). dropping logs:`,
-          JSON.stringify(logs),
-        );
-        return;
-      }
+    if (max) {
+      logWarn(
+        `max retries hit (${args.retries}). dropping logs:`,
+        JSON.stringify(logs),
+      );
+      return;
+    }
 
-      retries++;
-      setTimeout(() => send(logs, retries), args.interval);
-    });
+    retries++;
+    setTimeout(() => send(logs, retries), args.interval);
+  });
 }

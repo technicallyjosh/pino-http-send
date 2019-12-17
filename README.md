@@ -16,23 +16,31 @@ $ npm i pino-http-send
 pino-http-send [options]
 
 Options:
-  --help                Show help                                      [boolean]
-  --version             Show version number                            [boolean]
-  --log, -l             log to console as well        [boolean] [default: false]
-  --bodyType, -b        type of body to send
+  --help            Show help                                          [boolean]
+  --version         Show version number                                [boolean]
+  --log, -l         log to console as well            [boolean] [default: false]
+  --bodyType, -b    type of body to send
                           [string] [choices: "json", "ndjson"] [default: "json"]
-  --url                 url to send logs to                  [string] [required]
-  --username, -u        basic auth username                             [string]
-  --password, -p        basic auth password                             [string]
-  --batchSize, -s       how many logs to send at a time   [number] [default: 10]
-  --retries, -r         number of retries to do if failure [number] [default: 5]
-  --interval, -i        interval (in ms) to retry sending if failure
+  --logstash, --ls  indicates logs are sent to logstash. `time` becomes
+                    `@timestamp`                      [boolean] [default: false]
+  --url             url to send logs to                      [string] [required]
+  --username, -u    basic auth username                                 [string]
+  --password, -p    basic auth password                                 [string]
+  --batchSize, -s   how many logs to send at a time       [number] [default: 10]
+  --retries, -r     number of retries to do if failure     [number] [default: 5]
+  --interval, -i    interval (in ms) to retry sending if failure
                                                         [number] [default: 1000]
-  --timeout, -t         timeout (in ms) to send logs in bucket that are not
-                        filled                          [number] [default: 5000]
-  --config, -c          path to json config                             [string]
-  --timestampKey, --ts  remaps `time` to different key when sent        [string]
+  --timeout, -t     timeout (in ms) to send logs in bucket that are not filled
+                                                        [number] [default: 5000]
+  --config, -c      path to json config                                 [string]
 ```
+
+## Environment Variables
+
+All options can be defined in the environment and are prefixed with `PINO_HTTP_SEND_`. All
+camel-cased options are parsed with delimiters of `_`.
+
+_e.g. The option `batchSize` as an env var would be `PINO_HTTP_SEND_BATCH_SIZE`._
 
 ## URL
 

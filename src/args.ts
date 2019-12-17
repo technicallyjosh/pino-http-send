@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 
 export default yargs
   .usage('pino-http-send [options]')
+  .env('PINO_HTTP_SEND')
   .option('log', {
     alias: 'l',
     type: 'boolean',
@@ -15,6 +16,12 @@ export default yargs
     choices: ['json', 'ndjson'],
     desc: 'type of body to send',
     default: 'json',
+  })
+  .option('logstash', {
+    alias: 'ls',
+    type: 'boolean',
+    desc: 'indicates logs are sent to logstash. `time` becomes `@timestamp`',
+    default: false,
   })
   .option('url', {
     type: 'string',
@@ -61,10 +68,5 @@ export default yargs
     desc: 'path to json config',
     config: true,
     configParser: path => JSON.parse(readFileSync(path, 'utf8')),
-  })
-  .option('timestampKey', {
-    alias: 'ts',
-    type: 'string',
-    desc: 'remaps `time` to different key when sent',
   })
   .parse();
