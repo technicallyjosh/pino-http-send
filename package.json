@@ -39,8 +39,8 @@
   "keywords": [
     "pino",
     "logging",
-    "logstash",
-    "transport"
+    "transport",
+    "http"
   ],
   "author": {
     "name": "Josh Newman",

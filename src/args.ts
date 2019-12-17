@@ -17,12 +17,6 @@ export default yargs
     desc: 'type of body to send',
     default: 'json',
   })
-  .option('logstash', {
-    alias: 'ls',
-    type: 'boolean',
-    desc: 'indicates logs are sent to logstash. `time` becomes `@timestamp`',
-    default: false,
-  })
   .option('url', {
     type: 'string',
     require: true,

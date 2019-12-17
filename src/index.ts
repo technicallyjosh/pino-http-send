@@ -23,19 +23,9 @@ function safeParse(src: string) {
   }
 }
 
-function configureLog(log: Log) {
-  log['@timestamp'] = log.time;
-  delete log.time;
-}
-
 const transport = through.obj((log: Log, _enc, callback) => {
   if (args.log) {
     console.log(log);
-  }
-
-  if (args.logstash) {
-    // configure for sending
-    configureLog(log);
   }
 
   batch.push(log);
