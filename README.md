@@ -1,6 +1,7 @@
 # pino-http-send
 
-A basic handler for pino logs that sends batches to a desired endpoint via HTTP or HTTPS.
+A basic handler for [pino](https://github.com/pinojs/pino) logs that sends batches to a desired
+endpoint via HTTP or HTTPS.
 
 **_Pre v1 is subject to breaking changes on minor version change._**
 
