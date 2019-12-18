@@ -22,11 +22,18 @@ function createBody(logs: Log[]) {
 
 export default function send(logs: Log[], retries = 0) {
   const max = retries === args.retries;
+
+  const creds: Record<string, string> = {};
+
+  if (args.username && args.password) {
+    creds.username = args.username;
+    creds.password = args.password;
+  }
+
   // fire and continue
   got(args.url, {
     method: 'POST',
-    username: args.username,
-    password: args.password,
+    ...creds,
     ...createBody(logs),
   }).catch(err => {
     logError(err, max ? null : `...retrying in ${args.interval}ms`);
