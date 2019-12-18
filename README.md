@@ -20,22 +20,28 @@ $ npm i pino-http-send
 ```console
 pino-http-send [options]
 
-Options:
-  --help           Show help                                           [boolean]
-  --version        Show version number                                 [boolean]
-  --log, -l        log to console as well             [boolean] [default: false]
+Sending
   --bodyType, -b   type of body to send
                           [string] [choices: "json", "ndjson"] [default: "json"]
   --url            url to send logs to                       [string] [required]
-  --username, -u   basic auth username                                  [string]
-  --password, -p   basic auth password                                  [string]
   --batchSize, -s  how many logs to send at a time        [number] [default: 10]
-  --retries, -r    number of retries to do if failure      [number] [default: 5]
-  --interval, -i   interval (in ms) to retry sending if failure
-                                                        [number] [default: 1000]
   --timeout, -t    timeout (in ms) to send logs in bucket that are not filled
                                                         [number] [default: 5000]
-  --config, -c     path to json config                                  [string]
+
+Basic Auth
+  --username, -u  basic auth username                                   [string]
+  --password, -p  basic auth password                                   [string]
+
+Retry
+  --retries, -r   number of retries to do if failure       [number] [default: 5]
+  --interval, -i  interval (in ms) to retry sending if failure
+                                                        [number] [default: 1000]
+
+Options:
+  --help        Show help                                              [boolean]
+  --version     Show version number                                    [boolean]
+  --log, -l     log to console as well                [boolean] [default: false]
+  --config, -c  path to json config                                     [string]
 ```
 
 ## Environment Variables
@@ -50,14 +56,24 @@ _e.g. The option `batchSize` as an env var would be `PINO_HTTP_SEND_BATCH_SIZE`.
 **Example**
 
 ```console
-$ node . | pino-http-send --url localhost:8080
+$ node . | pino-http-send --url=http://localhost:8080
 ```
 
 You can also do https...
 
 ```console
-$ node . | pino-http-send --url https://myserver.com:8080
+$ node . | pino-http-send --url=https://myserver.com:8080
 ```
+
+## Body Type
+
+- `ndjson` - New-line delimited JSON. See [ndjson](https://github.com/ndjson/ndjson-spec)
+- `json` - Standard JSON sending of data. Logs are sent in the format of
+  ```json
+  {
+    "logs": [...logs]
+  }
+  ```
 
 ## Auth
 
