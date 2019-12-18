@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - 12
+script:
+  - npm run build
+  - npm test
 deploy:
   provider: npm
   email: git@technicallyjosh.com
