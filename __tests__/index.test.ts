@@ -1,18 +1,17 @@
-import { spawn } from 'child_process';
+import { exec } from 'child_process';
 
-describe('cli', () => {
-  it('should error when no url is specified', done => {
-    let lines = '';
+it('should error when no url is specified', done => {
+  let lines = '';
 
-    const child = spawn('node .');
+  const child = exec('node .');
 
-    child.stderr
-      .on('data', data => {
-        lines += data;
-      })
-      .on('end', () => {
-        expect(lines).toMatch('Missing required argument: url');
-        done();
-      });
+  child.stderr?.on('data', data => {
+    lines += data;
+  });
+
+  child.on('close', code => {
+    expect(code).toBe(1);
+    expect(lines).toMatch('Missing required argument: url');
+    done();
   });
 });
