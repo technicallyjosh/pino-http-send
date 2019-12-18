@@ -3,6 +3,10 @@
 A basic handler for [pino](https://github.com/pinojs/pino) logs that sends batches to a desired
 endpoint via HTTP or HTTPS.
 
+[![npm](https://img.shields.io/npm/v/pino-http-send.svg?style=for-the-badge)](https://npmjs.com/package/pino-http-send)
+[![Travis (.org)](https://img.shields.io/travis/technicallyjosh/pino-http-send.svg?style=for-the-badge)](https://travis-ci.org/technicallyjosh/pino-http-send)
+[![David](https://img.shields.io/david/technicallyjosh/pino-http-send.svg?style=for-the-badge)](https://david-dm.org/technicallyjosh/pino-http-send)
+
 **_Pre v1 is subject to breaking changes on minor version change._**
 
 ## Installation

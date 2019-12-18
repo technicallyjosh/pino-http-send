@@ -5,10 +5,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "async": "^3.1.0",
     "chalk": "^3.0.0",
     "got": "^10.0.4",
-    "lodash.debounce": "^4.0.8",
     "pump": "^3.0.0",
     "split2": "^3.1.1",
     "through2": "^3.0.1",
@@ -16,7 +14,6 @@
     "yargs": "^15.0.2"
   },
   "devDependencies": {
-    "@types/async": "^3.0.3",
     "@types/jest": "^24.0.23",
     "@types/lodash.debounce": "^4.0.6",
     "@types/pino": "^5.14.0",
@@ -31,7 +28,6 @@
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
-    "nock": "^11.7.0",
     "pino": "^5.15.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
