@@ -1,15 +1,15 @@
 language: node_js
 node_js:
-  - 12
+- 12
 script:
-  - npm run build
-  - npm test
+- npm run build
+- npm test
 deploy:
   provider: npm
-  email: '$NPM_EMAIL'
+  email: "$NPM_EMAIL"
   skip_cleanup: true
   api_key:
-    secure: f+J6y+1sKO0zRT4V8O32FGSegcNXQK9QyUbmqZXV/sgZH1wjKOwWTVyLWlgTYSsa8srUWSdC2OQao0WKk/lq3wYUWQ5U5h3WK6akbet57S1eKMgXhc+z9IGYrIvSyeYSuG7xcZP+qA2Lt8XLsCuitaFSmOqNhdBb+AdIETvtlM9nUj2u0e9bswpqFHINZPN9s4DwjcMcQJ6QfCyE29e0Zgssxb5mOqqpwB3FCkE4+Hk3oz0H86TWAT/blyIt63VZbMyg2jTzG6OO5cBBUNz4RAKzVjUxg120DlWC8zkrBki8JMwE3pnxsOirEtgeS+3HYk1bP6w7n4YGJPp6rVaz/dXTvqI/9XTIh75G0kVERL4JYOIRXyWNbPqULo0eilrpXjzJYsEMYBSqcWjY4ib8xB2IBw33nGDfFTDQN2n/syXeWirVTwW0BI17cXZSHtiNshH6C98XZKstKOBUSK0vPA+3XKEsVOrBA1SPChfgE6UsOypKpb2c7VL3pbgFgsAxFfA4Z8xlMoTPvpfMasgwpMcJERqYOr4FQp1JyKV7rkqmk6jAq98d8JGYKPhrwZtZd8U5uSNzD3HsU8uo0TbxhQDa9iiijSjbzNZGPqGtHimhHJTV2Cs48CsDaQhiOPH+lVtyJNgsKPYtYXFZzBJMNIukM+kE2JcyLLz/F22ssm4=
+    secure: aW9//snGZ0R8QoI5NVNVIm3ngxJ3L57SWeUWD4Pv1YR1nsMVQ2mzOM3v2dRQsgD8o9XqLvtzIZgKNOsYAXvt1eKb40kk1gBwxeyXWySbXq4I6DKV/4higw0lqcUs+nG2G2nUGFFwUq+s1cXEo0imdJX9P5uIFig3ZM+cP1ARGxyEoUS/oTtBEtYQuDFWnmHyY7ZbzNDKHzXgKOUsbSEpJ09wcQQdsx7BTQaI04ZO2w7VitySLHmXIcdeU4NdsMUsCDifHf+/AQV3KmwhK/eSE2E8kLj8pTOVCI0Kx0BWBAuwznVoj6ch7bySLwr05Dt3QrgAHGZh0o18ENdA5t00pzq73NbAAE3kDdoMVW9fs7lR+79ywRoPM23+ktFckOZyGDCdiM1VqIp/dh7RRWk5P5Lp44GFGh52FPmeM5Q8vKI4xP8i5W8bBMG3kse80Wo7izJfGTFGowl2yASElDUW/Nao/voLM0RNPnJ2BcM//O56OfMMhcfHxefkaYWVjBSZS3CfwYq1rIJTIyRUQaSkhlXetHVSDUZbb7EK4Z62lBzAWsEWuJesQhdMLqnt1t6fdvZtcpMC6MhRfI2qGKIWt40/lxaUMIZM6ZPg/zLVtFGmAURIVHl/9EVAVIC6OtX3VZr2wTpXgauWaqaiqPV+WstBf6nUmf/vTTKnOcbYj9c=
   on:
     tags: true
     repo: technicallyjosh/pino-http-send
