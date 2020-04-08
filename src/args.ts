@@ -10,6 +10,11 @@ export default yargs
     desc: 'log to console as well',
     default: false,
   })
+  .option('silent', {
+    type: 'boolean',
+    desc: 'silence pino-http-send logs for failures and retries',
+    default: false,
+  })
   .option('method', {
     alias: 'm',
     type: 'string',

@@ -37,13 +37,18 @@ export default function send(logs: Log[], retries = 0) {
     ...createBody(logs),
     allowGetBody: true,
   }).catch(err => {
-    logError(err, max ? null : `...retrying in ${args.interval}ms`);
+    if (!args.silent) {
+      logError(err, max ? null : `...retrying in ${args.interval}ms`);
+    }
 
     if (max) {
-      logWarn(
-        `max retries hit (${args.retries}). dropping logs:`,
-        JSON.stringify(logs),
-      );
+      if (!args.silent) {
+        logWarn(
+          `max retries hit (${args.retries}). dropping logs:`,
+          JSON.stringify(logs),
+        );
+      }
+
       return;
     }
 

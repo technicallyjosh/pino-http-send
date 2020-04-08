@@ -18,9 +18,12 @@ $ npm i pino-http-send
 ## Usage
 
 ```console
+$ pino-http-send --help
 pino-http-send [options]
 
 Sending
+  --method, -m
+             [string] [choices: "POST", "PUT", "PATCH", "GET"] [default: "POST"]
   --bodyType, -b   type of body to send
                           [string] [choices: "json", "ndjson"] [default: "json"]
   --url            url to send logs to                       [string] [required]
@@ -41,6 +44,8 @@ Options:
   --help        Show help                                              [boolean]
   --version     Show version number                                    [boolean]
   --log, -l     log to console as well                [boolean] [default: false]
+  --silent      silence pino-http-send logs for failures and retries
+                                                      [boolean] [default: false]
   --config, -c  path to json config                                     [string]
 ```
 
