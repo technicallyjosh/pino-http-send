@@ -1,4 +1,4 @@
-import got from 'got';
+import got, { Method } from 'got';
 
 import { Log } from '.';
 import args from './args';
@@ -32,9 +32,10 @@ export default function send(logs: Log[], retries = 0) {
 
   // fire and continue
   got(args.url, {
-    method: 'POST',
+    method: args.method as Method,
     ...creds,
     ...createBody(logs),
+    allowGetBody: true,
   }).catch(err => {
     logError(err, max ? null : `...retrying in ${args.interval}ms`);
 

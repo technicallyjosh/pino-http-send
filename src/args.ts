@@ -10,6 +10,13 @@ export default yargs
     desc: 'log to console as well',
     default: false,
   })
+  .option('method', {
+    alias: 'm',
+    type: 'string',
+    choices: ['POST', 'PUT', 'PATCH', 'GET'],
+    group: 'Sending',
+    default: 'POST',
+  })
   .option('bodyType', {
     alias: 'b',
     type: 'string',
