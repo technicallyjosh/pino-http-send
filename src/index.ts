@@ -14,7 +14,7 @@ export interface Log extends Record<string, any> {
 let timeoutId: NodeJS.Timeout;
 let batch: Log[] = [];
 
-export function safeParse(src: string) {
+export function safeParse(src: string): any {
   try {
     const parsed = JSON.parse(src);
 
@@ -36,7 +36,7 @@ function sendAndClear() {
   batch = [];
 }
 
-export function handleLog(log: Log, callback?: TransformCallback) {
+export function handleLog(log: Log, callback?: TransformCallback): void {
   clearTimeout(timeoutId);
 
   batch.push(log);

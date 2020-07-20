@@ -20,7 +20,7 @@ function createBody(logs: Log[]) {
   return { json: { logs } };
 }
 
-export default function send(logs: Log[], retries = 0) {
+export default function send(logs: Log[], retries = 0): void {
   const max = retries === args.retries;
 
   const creds: Record<string, string> = {};
