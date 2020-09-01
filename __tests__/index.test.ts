@@ -12,7 +12,7 @@ beforeAll(() => {
 it('should error when no url is specified', done => {
   let lines = '';
 
-  const child = exec('node .');
+  const child = exec('node ./dist/bin.js');
 
   child.stderr?.on('data', data => {
     lines += data;
