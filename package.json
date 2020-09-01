@@ -2,8 +2,50 @@
   "name": "pino-http-send",
   "version": "0.3.0",
   "description": "",
+  "keywords": [
+    "pino",
+    "logging",
+    "transport",
+    "http"
+  ],
+  "homepage": "https://github.com/technicallyjosh/pino-http-send#readme",
+  "bugs": {
+    "url": "https://github.com/technicallyjosh/pino-http-send/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/technicallyjosh/pino-http-send.git"
+  },
+  "license": "ISC",
+  "author": {
+    "name": "Josh Newman",
+    "url": "https://technicallyjosh.com"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "pino-http-send": "./dist/index.js"
+  },
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "dev": "npm run build && tsc --watch",
+    "lint": "eslint --ext ts ./src",
+    "test": "jest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,json,css,md}": "prettier --write",
+    "*.{ts,js}": "eslint --cache --fix",
+    "package.json": "npx sort-package-json"
+  },
   "dependencies": {
     "chalk": "^4.1.0",
     "got": "^11.5.2",
@@ -34,50 +76,5 @@
     "prettier": "^2.1.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^26.3.0"
-  },
-  "scripts": {
-    "build": "rimraf dist && tsc",
-    "dev": "npm run build && tsc --watch",
-    "lint": "eslint --ext ts ./src",
-    "test": "jest"
-  },
-  "bin": {
-    "pino-http-send": "./dist/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/technicallyjosh/pino-http-send.git"
-  },
-  "keywords": [
-    "pino",
-    "logging",
-    "transport",
-    "http"
-  ],
-  "author": {
-    "name": "Josh Newman",
-    "url": "https://technicallyjosh.com"
-  },
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/technicallyjosh/pino-http-send/issues"
-  },
-  "homepage": "https://github.com/technicallyjosh/pino-http-send#readme",
-  "files": [
-    "dist/",
-    "README.md"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,json}": [
-      "prettier --write"
-    ],
-    "*.{js,ts}": [
-      "eslint --fix"
-    ]
   }
 }
