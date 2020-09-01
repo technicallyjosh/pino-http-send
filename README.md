@@ -82,4 +82,52 @@ $ node . | pino-http-send --url=https://myserver.com:8080
 
 ## Auth
 
-Currently only basic auth is implemented. Tokens and other fun stuff will come later.
+Currently only basic auth is implemented for the CLI usage. For header usage, you can see the API usage.
+
+## API
+
+You can also use this module as a [pino destination](https://github.com/pinojs/pino/blob/master/docs/api.md#destination).
+
+This will use the same batching function like the CLI usage. If the batch length
+is not reached within a certain time (`timeout`), it will auto "flush".
+
+**It's important that you don't import/require from index when using as an API
+stream. Doing so willl require CLI args to be defined as this is a CLI-first
+package.**
+
+### `createWriteStream`
+
+The options passed to this follow the same values as the CLI defined above.
+
+| Property  | Type                    | Required/Default |
+| --------- | ----------------------- | ---------------- |
+| url       | `string`                | REQUIRED         |
+| log       | `boolean`               | false            |
+| silent    | `boolean`               | false            |
+| method    | `string`                | "POST"           |
+| bodyType  | `string`                | "json"           |
+| username  | `string`                |                  |
+| password  | `string`                |                  |
+| headers   | `Record<string,string>` |                  |
+| batchSize | `number`                | 10               |
+| retries   | `number`                | 5                |
+| interval  | `number`                | 1000             |
+| timeout   | `number`                | 5000             |
+| config    | `string`                |                  |
+
+```ts
+import { createWriteStream } from 'pino-http-send/dist/stream';
+
+const stream = createWriteStream({
+  url: 'http://localhost:8080',
+});
+
+const logger = pino(
+  {
+    level: 'info',
+  },
+  stream,
+);
+
+logger.info('test log!');
+```
