@@ -91,10 +91,6 @@ You can also use this module as a [pino destination](https://github.com/pinojs/p
 This will use the same batching function like the CLI usage. If the batch length
 is not reached within a certain time (`timeout`), it will auto "flush".
 
-**It's important that you don't import/require from index when using as an API
-stream. Doing so willl require CLI args to be defined as this is a CLI-first
-package.**
-
 ### `createWriteStream`
 
 The options passed to this follow the same values as the CLI defined above.
@@ -116,7 +112,7 @@ The options passed to this follow the same values as the CLI defined above.
 | config    | `string`                |                  |
 
 ```ts
-import { createWriteStream } from 'pino-http-send/dist/stream';
+import { createWriteStream } from 'pino-http-send';
 
 const stream = createWriteStream({
   url: 'http://localhost:8080',

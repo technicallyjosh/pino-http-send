@@ -1,33 +1,46 @@
-#!/usr/bin/env node
-import pump from 'pump';
+import Pumpify from 'pumpify';
 import split from 'split2';
 import through from 'through2';
 
-import { args, loadArgs } from './args';
+import { Args, setArgs } from './args';
 import { handleLog } from './handle';
 
-loadArgs();
-
-export function safeParse(src: string): any {
+/**
+ * Safely parses incoming JSON and logs the source if an error is thrown.
+ * @param src
+ */
+function safeParse(src: string): any {
   try {
     const parsed = JSON.parse(src);
 
-    if (args.log) {
-      console.log(src);
-    }
-
     return parsed;
   } catch (e) {
-    if (args.log) {
-      console.log(src);
-    }
+    console.log(src);
   }
 }
 
-const transport = through.obj(
-  (log: Record<string, unknown>, _enc, callback) => {
+/**
+ * Passes the incoming stream through the proper callback.
+ * @param args
+ */
+function streamHandler() {
+  return through.obj((log, _enc, callback) => {
     handleLog(log, callback);
-  },
-);
+  });
+}
 
-pump(process.stdin, split(safeParse), transport);
+/**
+ * Creates a writable stream that handles logs, batches them, and then sends
+ * them to the configured endpoint.
+ * @param options
+ */
+export function createWriteStream(args: Args): Pumpify {
+  // make sure url is defined right away
+  if (!args.url || !args.url.trim()) {
+    throw new Error('args.url is required');
+  }
+
+  setArgs(args);
+
+  return new Pumpify(split(safeParse), streamHandler());
+}
