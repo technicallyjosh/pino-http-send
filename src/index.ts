@@ -1,18 +1,12 @@
 #!/usr/bin/env node
 import pump from 'pump';
 import split from 'split2';
-import through, { TransformCallback } from 'through2';
+import through from 'through2';
 
-import args from './args';
-import send from './send';
+import { args, loadArgs } from './args';
+import { handleLog } from './handle';
 
-export interface Log extends Record<string, any> {
-  time: number;
-  v: number;
-}
-
-let timeoutId: NodeJS.Timeout;
-let batch: Log[] = [];
+loadArgs();
 
 export function safeParse(src: string): any {
   try {
@@ -30,30 +24,10 @@ export function safeParse(src: string): any {
   }
 }
 
-function sendAndClear() {
-  send([...batch]);
-
-  batch = [];
-}
-
-export function handleLog(log: Log, callback?: TransformCallback): void {
-  clearTimeout(timeoutId);
-
-  batch.push(log);
-
-  if (batch.length === args.batchSize) {
-    sendAndClear();
-
-    callback?.();
-  } else {
-    timeoutId = setTimeout(sendAndClear, args.timeout);
-
-    callback?.();
-  }
-}
-
-const transport = through.obj((log: Log, _enc, callback) => {
-  handleLog(log, callback);
-});
+const transport = through.obj(
+  (log: Record<string, unknown>, _enc, callback) => {
+    handleLog(log, callback);
+  },
+);
 
 pump(process.stdin, split(safeParse), transport);

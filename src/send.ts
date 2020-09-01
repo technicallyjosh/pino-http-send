@@ -1,13 +1,22 @@
 import got, { Method } from 'got';
 
-import { Log } from '.';
-import args from './args';
+import { args } from './args';
 import { logError, logWarn } from './log';
 
-function createBody(logs: Log[]) {
-  const { bodyType: type } = args;
+export type BodyType = 'json' | 'ndjson';
 
-  if (type === 'ndjson') {
+export type Body = {
+  body?: string;
+  json?: {
+    logs: unknown;
+  };
+};
+
+export function createBody(
+  logs: Record<string, unknown>[],
+  bodyType: BodyType,
+): Body {
+  if (bodyType === 'ndjson') {
     return {
       body: logs.reduce(
         (body, log) => (body += `${JSON.stringify(log)}\n`),
@@ -20,39 +29,51 @@ function createBody(logs: Log[]) {
   return { json: { logs } };
 }
 
-export default function send(logs: Log[], retries = 0): void {
-  const max = retries === args.retries;
+export function send(logs: Record<string, unknown>[], numRetries = 0): void {
+  const {
+    url,
+    method,
+    username,
+    password,
+    headers = {},
+    bodyType = 'json',
+    retries = 5,
+    interval = 1000,
+    silent = false,
+  } = args;
 
-  const creds: Record<string, string> = {};
+  const limitHit = numRetries === retries;
 
-  if (args.username && args.password) {
-    creds.username = args.username;
-    creds.password = args.password;
-  }
-
-  // fire and continue
-  got(args.url, {
-    method: args.method as Method,
-    ...creds,
-    ...createBody(logs),
+  // fire and forget so we don't await or anything
+  got(url, {
+    method: method as Method,
+    username,
+    password,
+    headers,
     allowGetBody: true,
-  }).catch(err => {
-    if (!args.silent) {
-      logError(err, max ? null : `...retrying in ${args.interval}ms`);
-    }
-
-    if (max) {
-      if (!args.silent) {
-        logWarn(
-          `max retries hit (${args.retries}). dropping logs:`,
-          JSON.stringify(logs),
-        );
+    ...createBody(logs, bodyType as BodyType),
+  })
+    .then()
+    .catch(err => {
+      if (!silent) {
+        logError(err, limitHit ? null : `...retrying in ${interval}ms`);
       }
 
-      return;
-    }
+      if (limitHit) {
+        if (!silent) {
+          // make sure to stringify to get the whole thing, e.g. don't want
+          // cutoffs on deep objects...
+          logWarn(
+            `max retries hit (${retries}). dropping logs:`,
+            JSON.stringify(logs),
+          );
+        }
 
-    retries++;
-    setTimeout(() => send(logs, retries), args.interval);
-  });
+        return;
+      }
+
+      numRetries++;
+
+      setTimeout(() => send(logs, numRetries), interval);
+    });
 }
