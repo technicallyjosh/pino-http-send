@@ -23,13 +23,14 @@ pino-http-send [options]
 
 Sending
   --method, -m
-             [string] [choices: "POST", "PUT", "PATCH", "GET"] [default: "POST"]
-  --bodyType, -b   type of body to send
-                          [string] [choices: "json", "ndjson"] [default: "json"]
-  --url            url to send logs to                       [string] [required]
-  --batchSize, -s  how many logs to send at a time        [number] [default: 10]
-  --timeout, -t    timeout (in ms) to send logs in bucket that are not filled
-                                                        [number] [default: 5000]
+             [string] [choices: "POST", "PUT", "PATCH", "GET"]  [default: "POST"]
+  --bodyType, -b       type of body to send
+                          [string] [choices: "json", "ndjson"]  [default: "json"]
+  --bodyJsonKey, -bjk  type of body to send            [string] [default: "logs"]
+  --url                url to send logs to                    [string] [required]
+  --batchSize, -s      how many logs to send at a time     [number] [default: 10]
+  --timeout, -t        timeout (in ms) to send logs in bucket that are not filled
+                                                         [number] [default: 5000]
 
 Basic Auth
   --username, -u  basic auth username                                   [string]
@@ -80,6 +81,22 @@ $ node . | pino-http-send --url=https://myserver.com:8080
   }
   ```
 
+## JSON body key
+
+The root key used to format the body of the request
+
+```json
+{
+  [bodyJsonKey]: [...logs]
+}
+```
+
+If an empty string is passed the json body will be the array of logs
+
+```json
+[...logs]
+```
+
 ## Auth
 
 Currently only basic auth is implemented for the CLI usage. For header usage, you can see the API usage.
@@ -95,21 +112,22 @@ is not reached within a certain time (`timeout`), it will auto "flush".
 
 The options passed to this follow the same values as the CLI defined above.
 
-| Property  | Type                    | Required/Default |
-| --------- | ----------------------- | ---------------- |
-| url       | `string`                | REQUIRED         |
-| log       | `boolean`               | false            |
-| silent    | `boolean`               | false            |
-| method    | `string`                | "POST"           |
-| bodyType  | `string`                | "json"           |
-| username  | `string`                |                  |
-| password  | `string`                |                  |
-| headers   | `Record<string,string>` |                  |
-| batchSize | `number`                | 10               |
-| retries   | `number`                | 5                |
-| interval  | `number`                | 1000             |
-| timeout   | `number`                | 5000             |
-| config    | `string`                |                  |
+| Property    | Type                    | Required/Default |
+| ----------- | ----------------------- | ---------------- |
+| url         | `string`                | REQUIRED         |
+| log         | `boolean`               | false            |
+| silent      | `boolean`               | false            |
+| method      | `string`                | "POST"           |
+| bodyType    | `string`                | "json"           |
+| bodyJsonKey | `string`                | "logs"           |
+| username    | `string`                |                  |
+| password    | `string`                |                  |
+| headers     | `Record<string,string>` |                  |
+| batchSize   | `number`                | 10               |
+| retries     | `number`                | 5                |
+| interval    | `number`                | 1000             |
+| timeout     | `number`                | 5000             |
+| config      | `string`                |                  |
 
 ```ts
 import { createWriteStream } from 'pino-http-send';

@@ -7,14 +7,13 @@ export type BodyType = 'json' | 'ndjson';
 
 export type Body = {
   body?: string;
-  json?: {
-    logs: unknown;
-  };
+  json?: Record<string, unknown> | Record<string, unknown>[];
 };
 
 export function createBody(
   logs: Record<string, unknown>[],
   bodyType: BodyType,
+  bodyJsonKey: string,
 ): Body {
   if (bodyType === 'ndjson') {
     return {
@@ -26,7 +25,11 @@ export function createBody(
   }
 
   // default is json
-  return { json: { logs } };
+  if (bodyJsonKey) {
+    return { json: { [bodyJsonKey]: logs } };
+  }
+
+  return { json: logs };
 }
 
 export function send(logs: Record<string, unknown>[], numRetries = 0): void {
@@ -37,6 +40,7 @@ export function send(logs: Record<string, unknown>[], numRetries = 0): void {
     password,
     headers = {},
     bodyType = 'json',
+    bodyJsonKey = 'logs',
     retries = 5,
     interval = 1000,
     silent = false,
@@ -51,7 +55,7 @@ export function send(logs: Record<string, unknown>[], numRetries = 0): void {
     password,
     headers,
     allowGetBody: true,
-    ...createBody(logs, bodyType as BodyType),
+    ...createBody(logs, bodyType as BodyType, bodyJsonKey),
   })
     .then()
     .catch(err => {
