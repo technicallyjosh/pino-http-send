@@ -7,6 +7,7 @@ export type Args = {
   silent?: boolean;
   method?: string;
   bodyType?: string;
+  bodyJsonKey?: string;
   username?: string;
   password?: string;
   headers?: Record<string, string>;
@@ -25,6 +26,7 @@ const defaultArgs: Args = {
   silent: true,
   method: 'POST',
   bodyType: 'json',
+  bodyJsonKey: 'logs',
   url: '',
   batchSize: 10,
   retries: 5,
@@ -66,6 +68,13 @@ export function loadArgs(): Args {
       desc: 'type of body to send',
       group: 'Sending',
       default: 'json',
+    })
+    .option('bodyJsonKey', {
+      alias: 'bjk',
+      type: 'string',
+      desc: 'root key for the logs array',
+      group: 'Sending',
+      default: 'logs',
     })
     .option('url', {
       type: 'string',

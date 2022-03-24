@@ -3,7 +3,9 @@ import { TransformCallback } from 'through2';
 import { args } from './args';
 import { send } from './send';
 
-let batch: Record<string, unknown>[] = [];
+import type { Log } from './send';
+
+let batch: Log[] = [];
 let timeoutId: number;
 
 /**
@@ -21,10 +23,7 @@ function sendAndClear() {
  * @param log
  * @param callback
  */
-export function handleLog(
-  log: Record<string, unknown>,
-  callback?: TransformCallback,
-): void {
+export function handleLog(log: Log, callback?: TransformCallback): void {
   clearTimeout(timeoutId);
 
   batch.push(log);

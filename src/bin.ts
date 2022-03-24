@@ -6,6 +6,8 @@ import through from 'through2';
 import { args, loadArgs } from './args';
 import { handleLog } from './handle';
 
+import type { Log } from './send';
+
 loadArgs();
 
 function safeParse(src: string): any {
@@ -24,10 +26,8 @@ function safeParse(src: string): any {
   }
 }
 
-const transport = through.obj(
-  (log: Record<string, unknown>, _enc, callback) => {
-    handleLog(log, callback);
-  },
-);
+const transport = through.obj((log: Log, _enc, callback) => {
+  handleLog(log, callback);
+});
 
 pump(process.stdin, split(safeParse), transport);
