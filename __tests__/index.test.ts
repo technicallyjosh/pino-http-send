@@ -4,7 +4,7 @@ import http from 'http';
 jest.setTimeout(10000);
 
 let server: http.Server;
-let body: unknown;
+let body: undefined | Record<string, unknown>[];
 
 beforeAll(done => {
   server = http.createServer(

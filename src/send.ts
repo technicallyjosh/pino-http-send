@@ -5,13 +5,17 @@ import { logError, logWarn } from './log';
 
 export type BodyType = 'json' | 'ndjson';
 
+export type Log = Record<string, unknown>;
+
+export type Json = Log | Log[];
+
 export type Body = {
   body?: string;
-  json?: Record<string, unknown> | Record<string, unknown>[];
+  json?: Json;
 };
 
 export function createBody(
-  logs: Record<string, unknown>[],
+  logs: Log[],
   bodyType: BodyType,
   bodyJsonKey: string,
 ): Body {
@@ -32,7 +36,7 @@ export function createBody(
   return { json: logs };
 }
 
-export function send(logs: Record<string, unknown>[], numRetries = 0): void {
+export function send(logs: Log[], numRetries = 0): void {
   const {
     url,
     method,
