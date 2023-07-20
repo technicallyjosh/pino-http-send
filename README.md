@@ -12,7 +12,7 @@ endpoint via HTTP or HTTPS.
 ## Installation
 
 ```console
-$ npm i pino-http-send
+npm i pino-http-send
 ```
 
 ## Usage
@@ -24,12 +24,16 @@ pino-http-send [options]
 Sending
   --method, -m
              [string] [choices: "POST", "PUT", "PATCH", "GET"] [default: "POST"]
-  --bodyType, -b   type of body to send
+  --bodyType, -b             type of body to send
                           [string] [choices: "json", "ndjson"] [default: "json"]
-  --url            url to send logs to                       [string] [required]
-  --batchSize, -s  how many logs to send at a time        [number] [default: 10]
-  --timeout, -t    timeout (in ms) to send logs in bucket that are not filled
-                                                        [number] [default: 5000]
+  --jsonPayloadBaseType, -j  allows for sending an array or an object as the
+                             base type of the json payload
+                       [string] [choices: "array", "object"] [default: "object"]
+  --url                      url to send logs to             [string] [required]
+  --batchSize, -s            how many logs to send at a time
+                                                          [number] [default: 10]
+  --timeout, -t              timeout (in ms) to send logs in bucket that are not
+                             filled                     [number] [default: 5000]
 
 Basic Auth
   --username, -u  basic auth username                                   [string]
@@ -61,19 +65,20 @@ _e.g. The option `batchSize` as an env var would be `PINO_HTTP_SEND_BATCH_SIZE`.
 **Example**
 
 ```console
-$ node . | pino-http-send --url=http://localhost:8080
+node . | pino-http-send --url=http://localhost:8080
 ```
 
 You can also do https...
 
 ```console
-$ node . | pino-http-send --url=https://myserver.com:8080
+node . | pino-http-send --url=https://myserver.com:8080
 ```
 
 ## Body Type
 
 - `ndjson` - New-line delimited JSON. See [ndjson](https://github.com/ndjson/ndjson-spec)
 - `json` - Standard JSON sending of data. Logs are sent in the format of
+
   ```json
   {
     "logs": [...logs]
@@ -95,21 +100,22 @@ is not reached within a certain time (`timeout`), it will auto "flush".
 
 The options passed to this follow the same values as the CLI defined above.
 
-| Property  | Type                    | Required/Default |
-| --------- | ----------------------- | ---------------- |
-| url       | `string`                | REQUIRED         |
-| log       | `boolean`               | false            |
-| silent    | `boolean`               | false            |
-| method    | `string`                | "POST"           |
-| bodyType  | `string`                | "json"           |
-| username  | `string`                |                  |
-| password  | `string`                |                  |
-| headers   | `Record<string,string>` |                  |
-| batchSize | `number`                | 10               |
-| retries   | `number`                | 5                |
-| interval  | `number`                | 1000             |
-| timeout   | `number`                | 5000             |
-| config    | `string`                |                  |
+| Property            | Type                    | Required/Default |
+| ------------------- | ----------------------- | ---------------- |
+| url                 | `string`                | REQUIRED         |
+| log                 | `boolean`               | false            |
+| silent              | `boolean`               | false            |
+| method              | `string`                | "POST"           |
+| bodyType            | `string`                | "json"           |
+| jsonPayloadBaseType | `string`                | "object"         |
+| username            | `string`                |                  |
+| password            | `string`                |                  |
+| headers             | `Record<string,string>` |                  |
+| batchSize           | `number`                | 10               |
+| retries             | `number`                | 5                |
+| interval            | `number`                | 1000             |
+| timeout             | `number`                | 5000             |
+| config              | `string`                |                  |
 
 ```ts
 import { createWriteStream } from 'pino-http-send';

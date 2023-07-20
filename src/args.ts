@@ -7,6 +7,7 @@ export type Args = {
   silent?: boolean;
   method?: string;
   bodyType?: string;
+  jsonPayloadBaseType?: string;
   username?: string;
   password?: string;
   headers?: Record<string, string>;
@@ -25,6 +26,7 @@ const defaultArgs: Args = {
   silent: true,
   method: 'POST',
   bodyType: 'json',
+  jsonPayloadBaseType: 'object',
   url: '',
   batchSize: 10,
   retries: 5,
@@ -66,6 +68,15 @@ export function loadArgs(): Args {
       desc: 'type of body to send',
       group: 'Sending',
       default: 'json',
+    })
+    .options('jsonPayloadBaseType', {
+      alias: 'j',
+      type: 'string',
+      choices: ['array', 'object'],
+      desc:
+        'allows for sending an array or an object as the base type of the json payload',
+      group: 'Sending',
+      default: 'object',
     })
     .option('url', {
       type: 'string',
